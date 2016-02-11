@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -56,10 +58,17 @@ public class EmailAdapter extends RecyclerView.Adapter<CustomViewHolder> {
         //Download image using picasso library
         customViewHolder.name.setText(item.name);
         //Setting text view title
-        PrettyTime p = new PrettyTime();
-        Date date = new Date(item.timestamp);
 
-        customViewHolder.timestamp.setText(p.format(date));
+        PrettyTime p = new PrettyTime();
+        Date date = new Date(item.timestamp*1000);
+        String str = p.format(date);
+
+        if(str.contains("mon") || str.contains("week")){
+            DateFormat format = new SimpleDateFormat("d MMM");
+            str = format.format(date);
+        }
+
+        customViewHolder.timestamp.setText(str);
         customViewHolder.desc.setText(item.desc);
     }
 
